@@ -2,6 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 // const CopyPlugin = require("copy-webpack-plugin");
 const json5 = require("json5");
 
@@ -12,6 +14,7 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
     publicPath: "/",
+    clean: true,
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -70,4 +73,11 @@ module.exports = {
           ],
         }), */
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin(),
+      new CssMinimizerPlugin(),
+    ],
+  },
 };
