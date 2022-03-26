@@ -9,12 +9,14 @@ const json5 = require("json5");
 
 module.exports = {
   mode: "production",
+  devtool: "source-map",
   entry: "./src/index.js",
   output: {
-    filename: "bundle.js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     publicPath: "/",
     clean: true,
+    assetModuleFilename: "[hash][ext][query]",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -60,7 +62,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public", "index.html"),
     }),
-    new MiniCssExtractPlugin({}),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[id].[contenthash].css",
+    }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production"),
     }),
